@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Make sure to link to your actual CSS file -->
+    <title>Your Form Title</title>
 </head>
-
 <body>
-    <form method="post" action="Login_page.php">
-        <label>Username</label>
-        <input type="text" id="name" name="name">
-        <label>Password</label>
-        <input type="password" id="password" name="password">
-        <input type="submit" value="Submit">
-    </form>
-</body>
 
+    <center>
+        <form action="Login_page.php" method="POST">
+        <div>
+        <label for="username">Username : </label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password : </label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="login"> 
+        </div>
+    </form>
+    </center>
+</body>
 </html>

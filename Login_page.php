@@ -1,40 +1,41 @@
 <?php
-    $server = "localhost";
-    $username = "root";
+    $host = "localhost";
+    $user = "root";
     $password = "";
-    $database = "components inventory";  // Add your database name here
+    $database_name = "user";
 
-    $con = mysqli_connect($server, $username, $password, $database);
-
-    if (!$con) {
-        die("Connection to this database is failed due to.. " . mysqli_connect_error());
+    $data = mysqli_connect($host, $user, $password, $database_name);
+    if ($data === false) {
+        die("Connection error");
     }
 
-    // echo "Successful";
-
-    // Check if the form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Retrieve values from the form
-        $name = isset($_POST['name']) ? $_POST['name'] : '';
-        $userPassword = isset($_POST['password']) ? $_POST['password'] : '';
-        $hashedPassword = password_hash($userPassword, PASSWORD_DEFAULT);
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
-        // Update the SQL query to fix the typo and use correct variables
-        $sql = "INSERT INTO `login` (`Email`, `Password`) VALUES ('$name', '$hashedPassword')";
+        // Use prepared statement to prevent SQL injection
+        $sql = "SELECT * FROM login WHERE Username = ? AND Password = ?";
+        $stmt = mysqli_prepare($data, $sql);
+        mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-        // Execute the query
-        $result = mysqli_query($con, $sql);
+        // Check if any rows were returned
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_array($result);
 
-        // Check if the query was successful
-        if ($result) {
-            echo "Record inserted successfully";
+            if ($row["Usertype"] == "user") {
+                header("location:User_Homepage.php");
+            } elseif ($row["Usertype"] == "admin") {
+                header("location:Admin_Homepage.php");
+            } else {
+                echo "USERNAME OR PASSWORD INCORRECT";
+            }
         } else {
-            echo "Error: " . mysqli_error($con);
+            echo "USERNAME OR PASSWORD INCORRECT";
         }
-    } else {
-        echo "Form not submitted.";
-    }
 
-    // Close the connection
-    mysqli_close($con);
+        mysqli_stmt_close($stmt);
+        mysqli_close($data);
+    }
 ?>
