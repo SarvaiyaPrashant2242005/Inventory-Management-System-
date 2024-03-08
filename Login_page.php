@@ -25,7 +25,7 @@
             $row = mysqli_fetch_array($result);
 
             if ($row["Usertype"] == "user") {
-                header("location:User_Homepage.php");
+                header("location:mainpage.php");
             } elseif ($row["Usertype"] == "admin") {
                 header("location:Admin_Homepage.php");
             } else {
