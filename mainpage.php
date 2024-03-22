@@ -97,7 +97,7 @@
                           <div class="card-body">
                             <h5 class="card-title">Microcontroller</h5>
                             <br>
-                            <a href="#" class="btn btn-primary" id="microcontroller-btn">Microcontroller</a>
+                            <a href="Microcontroller.html" class="btn btn-primary" id="microcontroller-btn">Microcontroller</a>
                           </div>
                         </div>
                   </div>
@@ -107,7 +107,7 @@
                           <div class="card-body">
                             <h5 class="card-title">Sensors</h5>
                             <br>
-                            <a href="#" class="btn btn-primary" id="sensor-btn">Sensor</a>
+                            <a href="Sensors.html" class="btn btn-primary" id="sensor-btn">Sensor</a>
                           </div>
                         </div>
         
@@ -118,7 +118,7 @@
                           <div class="card-body">
                             <h5 class="card-title">Drone components</h5>
                             <br>
-                            <a href="#" class="btn btn-primary" id="drone-btn">Drone components</a>
+                            <a href="Drone_components.html" class="btn btn-primary" id="drone-btn">Drone components</a>
                           </div>
                         </div>
         
@@ -134,7 +134,7 @@
                       <div class="card-body">
                         <h5 class="card-title">Electronic items</h5>
                         <br>
-                        <a href="#" class="btn btn-primary" id="electronic-btn">Electronic items</a>
+                        <a href="Electronic_items.html" class="btn btn-primary" id="electronic-btn">Electronic items</a>
                       </div>
                     </div>
         
