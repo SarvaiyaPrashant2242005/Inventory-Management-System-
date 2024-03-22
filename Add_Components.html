@@ -6,24 +6,109 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- Existing checkboxes -->
     <input type="checkbox" id="Arduino_Uno" class="Components">
-    <label for="Arduino Uno">Arduino Uno</label>
+    <label for="Arduino_Uno">Arduino Uno</label>
     
     <br>
     <input type="checkbox" id="DHT11" class="Components">
     <label for="DHT11">DHT11</label>
     
     <br>
-    <input type="checkbox" id="Color Sensor" class="Components">
-    <label for="Color Sensor">Color Sensor</label>
+    <input type="checkbox" id="Color_Sensor" class="Components">
+    <label for="Color_Sensor">Color Sensor</label>
     
     <br>
-    <input type="checkbox" value="Ultrasonic Sensor" id="Ultrasonic" class="Component">
+    <input type="checkbox" id="Ultrasonic" class="Components">
     <label for="Ultrasonic">Ultrasonic Sensor</label>
     <br>
 
-    <button id="add_Components">Add MoreComponents</button>
+    <!-- Container to hold dynamically added checkboxes -->
+    <div id="checkboxContainer"></div>
 
+    <!-- Button to show the form -->
+    <button id="showFormButton">Add Component</button>
 
+    <!-- Form to add more components -->
+    <form id="componentForm" style="display: none;">
+        <label for="componentName">Component Name:</label>
+        <input type="text" id="componentName" name="componentName" required>
+        <br>
+        <button type="submit">Done</button>
+    </form>
+
+    <!-- JavaScript code -->
+    <script>
+        // Function to show the form
+        function showForm() {
+            var form = document.getElementById("componentForm");
+            form.style.display = "block";
+        }
+
+        // Event listener for the show form button
+        document.getElementById("showFormButton").addEventListener("click", function() {
+            showForm();
+            // Save the form state to local storage
+            localStorage.setItem("formVisible", "true");
+        });
+
+        // Function to hide the form
+        function hideForm() {
+            var form = document.getElementById("componentForm");
+            form.style.display = "none";
+            // Save the form state to local storage
+            localStorage.setItem("formVisible", "false");
+        }
+
+        // Event listener for form submission (Done button)
+        document.getElementById("componentForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get input value from the form
+            var componentName = document.getElementById("componentName").value;
+
+            // Add component
+            addComponent(componentName);
+
+            // Clear the form field
+            document.getElementById("componentForm").reset();
+
+            // Hide the form
+            hideForm();
+        });
+
+        // Function to add component
+        function addComponent(componentName) {
+            // Create a new checkbox element
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.className = "Components";
+            checkbox.id = componentName.replace(/\s+/g, '_'); // Replace spaces with underscores for ID
+
+            // Create a label for the checkbox
+            var label = document.createElement("label");
+            label.htmlFor = checkbox.id;
+            label.appendChild(document.createTextNode(componentName));
+
+            // Create a div to hold the checkbox and label
+            var div = document.createElement("div");
+            div.appendChild(checkbox);
+            div.appendChild(label);
+
+            // Append the div to the container
+            var container = document.getElementById("checkboxContainer");
+            container.appendChild(div);
+        }
+
+        // Check if the form was visible before refreshing the page
+        window.onload = function() {
+            var formVisible = localStorage.getItem("formVisible");
+            if (formVisible === "true") {
+                showForm();
+            } else {
+                hideForm();
+            }
+        };
+    </script>
 </body>
 </html>
