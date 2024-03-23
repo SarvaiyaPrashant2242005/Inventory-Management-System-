@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="All_check">Check all</label>
+    <input type="checkbox" id="All_check" style="right: 100px;">
+    <br>
+    <!-- Existing checkboxes -->
+    <br>
+
+    <div id="checkboxContainer"></div>
+
+    <!-- Button to add components -->
+    <button id="addComponentButton">Add Components</button>
+
+    <!-- Button to enter quantities -->
+    <button id="quantityButton">Enter Quantities</button>
+
+    <!-- Form to add more components -->
+    <form id="componentForm" style="display: none;">
+        <label for="componentName">Component Name:</label>
+        <input type="text" id="componentName" name="componentName" required>
+        <br>
+        <button type="submit">Done</button>
+    </form>
+
+    <!-- Form for entering quantities (hidden by default) -->
+    <form id="quantityForm" style="display: none;">
+        <!-- Quantity inputs for checked checkboxes will be dynamically added here -->
+        <button type="submit">Submit Quantities</button>
+    </form>
+    </form>
+    <!-- JavaScript code -->
+    <script src="Add _new_checkbox.js"></script>
+</body>
+</html>
