@@ -97,7 +97,7 @@
                           <div class="card-body">
                             <h5 class="card-title">Microcontroller</h5>
                             <br>
-                            <a href="Microcontroller.html" class="btn btn-primary" id="microcontroller-btn">Microcontroller</a>
+                            <a href="Microcontroller.php" class="btn btn-primary" id="microcontroller-btn">Microcontroller</a>
                           </div>
                         </div>
                   </div>
