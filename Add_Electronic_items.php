@@ -1,12 +1,12 @@
 <?php
-require_once('Microcontrollars_DB.php');
+require_once('Electronics_DB.php');
 
 $componet = '';
 $quantities = '';       
 $sel_id = -1;
 
 if (isset($_REQUEST['btnEdit'])) {
-    $sql = "SELECT * FROM Microcontrollars WHERE id = " . $_REQUEST['btnEdit'];
+    $sql = "SELECT * FROM Electonics WHERE id = " . $_REQUEST['btnEdit'];
     if ($result = mysqli_query($link, $sql)) {
         if (mysqli_num_rows($result) > 0) {
             $sel_id = $_REQUEST['btnEdit'];
@@ -21,7 +21,7 @@ if (isset($_REQUEST['btnEdit'])) {
 
 if (isset($_REQUEST['btnDelete'])) {
     $delete_id = $_REQUEST['btnDelete'];
-    $sql = "DELETE FROM Microcontrollars WHERE id = $delete_id";
+    $sql = "DELETE FROM Electonics WHERE id = $delete_id";
     if (mysqli_query($link, $sql)) {
         echo "Blog entry deleted successfully!";
     } else {
@@ -38,7 +38,7 @@ if (isset($_POST['btnSave'])) {
         $quantity = mysqli_real_escape_string($link, $quantity);
         
         // Update the quantities in the database
-        $sql = "UPDATE Microcontrollars SET quantities = '$quantity' WHERE id = $componentId";
+        $sql = "UPDATE Electonics SET quantities = '$quantity' WHERE id = $componentId";
         if (!mysqli_query($link, $sql)) {
             echo "Error updating quantity for component with ID $componentId: " . mysqli_error($link);
         }
@@ -75,9 +75,9 @@ if (isset($_POST['btnSave'])) {
                 $quantities = $_REQUEST['txtquantities'];
                 
                 if ($sel_id == -1) {
-                    $sql = "INSERT INTO Microcontrollars (componet, quantities) VALUES ('$componet', '$quantities')";
+                    $sql = "INSERT INTO Electonics (componet, quantities) VALUES ('$componet', '$quantities')";
                 } else {
-                    $sql  = "UPDATE Microcontrollars SET componet = '$componet', quantities = '$quantities' WHERE id = $sel_id";
+                    $sql  = "UPDATE Electonics SET componet = '$componet', quantities = '$quantities' WHERE id = $sel_id";
                 }
 
                 if (mysqli_query($link, $sql)) {
@@ -89,7 +89,7 @@ if (isset($_POST['btnSave'])) {
                 }
             }
 
-            $sql = "SELECT * FROM Microcontrollars";
+            $sql = "SELECT * FROM Electonics";
             if ($result = mysqli_query($link, $sql)) {
                 if (mysqli_num_rows($result) > 0) {
                     echo '<br>';
