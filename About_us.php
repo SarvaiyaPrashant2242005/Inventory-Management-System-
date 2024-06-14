@@ -14,6 +14,9 @@
 
     <script src="https://kit.fontawesome.com/e80601fab7.js" crossorigin="anonymous"></script>
 <style>
+    body{
+          background-image: url("11.jpg");
+          background-size: cover;}
     .main-display {
     position: absolute;
     left: 250px;

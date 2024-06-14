@@ -52,13 +52,14 @@ border-radius: 30%;
 }
 
 .sidebar-menu {
-position: absolute;
 left: 0 px;
 width: 250px;
 height: 100vh;
 box-shadow: rgb(0, 0, 0, 0.5);
 background-color: rgb(34, 34, 34, 1);
 border-top: 1px solid white;
+position: fixed;
+
 
 }
 

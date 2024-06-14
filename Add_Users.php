@@ -1,48 +1,3 @@
-<?php include 'Admin_Sidebar.php'; ?>
-<?php
-    $host = "localhost";
-    $user = "root";
-    $password = "";
-    $database_name = "login";
-
-    $data = mysqli_connect($host, $user, $password, $database_name);
-    if ($data === false) {
-        die("Connection error");
-    }
-
-    // Initialize alert message variable
-    $alert_message = "";
-
-    // Check if form is submitted for adding a user
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $department = $_POST['department'];
-        $password = $_POST['password'];
-        $contact = $_POST['Contact'];
-        $usertype = $_POST['usertype']; // Assuming you have a select dropdown for user type
-
-        // Check if username already exists
-        $check_query = "SELECT * FROM login WHERE Username = '$username'";
-        $check_result = mysqli_query($data, $check_query);
-        if (mysqli_num_rows($check_result) > 0) {
-            // Username already exists
-            $alert_message = "Username already exists. Please choose a different username.";
-        } else {
-            // Insert new user into the database
-            $insert_query = "INSERT INTO login (Username, Email, Department, Password, Phone_No, Usertype) VALUES ('$username', '$email', '$department', '$password', '$contact','$usertype')";
-                if (mysqli_query($data, $insert_query)) {
-                // Set alert message
-                $alert_message = "User added successfully.";
-            } else {
-                $alert_message = "Error adding user: " . mysqli_error($data);
-            }
-        }
-
-        mysqli_close($data);
-    }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,13 +8,23 @@
     <?php include 'Admin_Sidebar.php'; ?>
     
     <style>
-        /* Adjust main content styles */
+        /* Sidebar */
+        /* Add your styles for the sidebar here */
+
+        /* Main content */
+        body {
+            background-image: url("AA.avif");
+            background-size: cover;
+            margin: 0; /* Reset default margin */
+            padding: 0; /* Reset default padding */
+            font-family: Arial, sans-serif; /* Add a fallback font */
+        }
+
         .main-content {
             margin-left: 200px; /* Width of the sidebar */
             padding: 20px;
             width: calc(100% - 200px); /* Take up remaining width */
-            background-color: #f9f9f9;
-            border-left: 1px solid #ccc;
+            box-sizing: border-box; /* Include padding and border in the element's total width */
         }
 
         /* Form styles */
@@ -80,14 +45,14 @@
         input[type="text"],
         input[type="password"],
         input[type="email"],
-        input[Type="tel" ],
+        input[type="tel"],
         select {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+            box-sizing: border-box; /* Ensure padding and border are included in the element's total width */
         }
 
         input[type="submit"] {
@@ -128,10 +93,8 @@
                 <label for="password">Password:</label>
                 <input type="password" name="password" required><br><br>
                 
-                <label for="Contact">Contact : </label>
-                <input type="tel" id="phone" name="Contact" required> 
-                <br><br>
-
+                <label for="Contact">Contact:</label>
+                <input type="tel" id="phone" name="Contact" required><br><br>
 
                 <label for="usertype">User Type:</label>
                 <select name="usertype">

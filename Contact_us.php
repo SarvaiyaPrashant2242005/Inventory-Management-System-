@@ -6,22 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
     <?php  include 'NAVBAR.php'; ?>
+    <?php include 'USER_SIDEBAR.php'; ?>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         /* Custom CSS */
         body {
+            background-image: url("11.jpg");
+            background-size: cover;
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
         }
 
         .main-display {
             max-width: 600px;
-            margin: 50px auto;
+            margin: 150px;
             background-color: #fff;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+            ;display:flex'
         }
 
         .main-display h2 {

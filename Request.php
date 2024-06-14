@@ -10,6 +10,9 @@
     <?php include 'NAVBAR.php'; ?>
     <?php include 'USER_SIDEBAR.php'; ?>
     <style>
+        body{
+          background-image: url("11.jpg");
+          background-size: cover;}
         h1{
             justify-content: center;
         }

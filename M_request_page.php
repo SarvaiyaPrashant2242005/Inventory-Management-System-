@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="styles.css"> <!-- Add your custom CSS file -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome for icons -->
     <style>
+      body{
+          background-image: url("11.jpg");
+          background-size: cover;}
         h1{
             justify-content: center;
         }
@@ -77,7 +80,7 @@
                                 $status = $_POST['status'];
                                 $sql = "UPDATE request SET status = '$status' WHERE id = $request_id";
                                 if (mysqli_query($link, $sql)) {
-                                    echo "<script>alert('Status updated successfully');</script>";
+                                   
                                 } else {
                                     echo "Error updating status: " . mysqli_error($link);
                                 }

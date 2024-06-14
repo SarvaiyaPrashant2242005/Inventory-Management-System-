@@ -73,6 +73,9 @@ mysqli_close($link);
     <!-- Include Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+  body{
+          background-image: url("AA.avif");
+          background-size: cover;}
         /* Adjust main content styles */
         .main-content {
             padding: 20px;
