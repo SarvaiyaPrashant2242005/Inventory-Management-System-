@@ -1,186 +1,112 @@
+<?php include 'Admin_Sidebar.php'; ?>
+<?php include 'NAVBAR.php'; ?>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"> <!-- Add Animate.css -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <?php
 require_once('Microcontrollars_DB.php');
-
 $componet = '';
-$quantities = '';       
+$quantities  = '';
 $sel_id = -1;
-
 if (isset($_REQUEST['btnEdit'])) {
-    $sql = "SELECT * FROM Microcontrollars WHERE id = " . $_REQUEST['btnEdit'];
+    $sql = "select * from microcontrollars where id = " . $_REQUEST['btnEdit'];
     if ($result = mysqli_query($link, $sql)) {
         if (mysqli_num_rows($result) > 0) {
             $sel_id = $_REQUEST['btnEdit'];
             while ($row = mysqli_fetch_array($result)) {
                 $componet = $row['componet'];
-                $quantities = $row['quantities'];
-                
+                $quantities  = $row['quantities'];   
             }
         }
     }
 }
-
-if (isset($_REQUEST['btnDelete'])) {
-    $delete_id = $_REQUEST['btnDelete'];
-    $sql = "DELETE FROM Microcontrollars WHERE id = $delete_id";
-    if (mysqli_query($link, $sql)) {
-        echo "Blog entry deleted successfully!";
-    } else {
-        echo "Error deleting blog entry: " . mysqli_error($link);
-    }
-}
-
-// Check if form is submitted
-if (isset($_POST['btnSave'])) {
-    // Loop through the submitted quantities and update the database
-    foreach ($_POST['quantities'] as $componentId => $quantity) {
-        // Validate input to prevent SQL injection
-        $componentId = mysqli_real_escape_string($link, $componentId);
-        $quantity = mysqli_real_escape_string($link, $quantity);
-        
-        // Update the quantities in the database
-        $sql = "UPDATE Microcontrollars SET quantities = '$quantity' WHERE id = $componentId";
-        if (!mysqli_query($link, $sql)) {
-            echo "Error updating quantity for component with ID $componentId: " . mysqli_error($link);
-        }
-    }
-}
-
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add_Microcontroller</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-</head>
-<body>
-
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <form method="post" action="">
-                <input type="text" name="txtcomponet" placeholder="Enter componet name" required value="<?php echo $componet ?>">
-                <input type="text" name="txtquantities" placeholder="Enter quantities " required value="<?php echo $quantities ?>">
+                <input type="text" name="txtcomponet" placeholder="Enter component" required value="<?php echo $componet ?>" class="animate__animated animate__fadeIn">
+                <input type="text" name="txtquantities" placeholder="Enter quantities " required value="<?php echo $quantities ?>" class="animate__animated animate__fadeIn">
+               
                 <input type="hidden" name="selid" value="<?php echo $sel_id ?>">
-                <input type="submit" value="<?php echo $sel_id == -1 ? 'Add' : 'Update'; ?> " name="btnAdd" class="btn btn-primary">
-            </form>
+                <input type="submit" value="<?php echo $sel_id == -1 ? 'Add' : 'Update'; ?> " name="btnAdd" class="btn btn-primary animate__animated animate__fadeIn">
 
+            </form>
             <?php
 
             if (isset($_REQUEST['btnAdd'])) {
                 $componet = $_REQUEST['txtcomponet'];
-                $quantities = $_REQUEST['txtquantities'];
-                
-                if ($sel_id == -1) {
-                    $sql = "INSERT INTO Microcontrollars (componet, quantities) VALUES ('$componet', '$quantities')";
-                } else {
-                    $sql  = "UPDATE Microcontrollars SET componet = '$componet', quantities = '$quantities' WHERE id = $sel_id";
-                }
-
+                $quantities  = $_REQUEST['txtquantities'];
+               
+                if ($_REQUEST['selid'] == -1)
+                    $sql = "insert into microcontrollars  (componet,quantities) values  ('$componet', '$quantities')";
+                else
+                    $sql  = "update microcontrollars set componet = '$componet', quantities='$quantities' where id = " . $_REQUEST['selid'];
                 if (mysqli_query($link, $sql)) {
-                    echo "Blog ";
-                    echo $sel_id == -1 ? "added" : "updated";
-                    echo " successfully!";
+                    echo '<div class="alert alert-success animate__animated animate__fadeIn" role="alert">Added Successfully !!!</div>';
                 } else {
-                    echo "ERROR: Could not execute $sql. " . mysqli_error($link);
+                    echo '<div class="alert alert-danger animate__animated animate__fadeIn" role="alert">ERROR: Could not able to execute $sql. ' . mysqli_error($link) . '</div>';
                 }
             }
 
-            $sql = "SELECT * FROM Microcontrollars";
+
+            if (isset($_REQUEST['btnDelete'])) {
+                $sql  = "DELETE FROM microcontrollars WHERE id = " . $_REQUEST['selid'];
+                if (mysqli_query($link, $sql)) {
+                    echo '<div class="alert alert-success animate__animated animate__fadeIn" role="alert">Deleted successfully!</div>';
+                } else {
+                    echo '<div class="alert alert-danger animate__animated animate__fadeIn" role="alert">ERROR: Could not able to execute $sql. ' . mysqli_error($link) . '</div>';
+                }
+            }
+
+            // Code to retrieve and display all blogs
+            $sql = "select * from microcontrollars";
             if ($result = mysqli_query($link, $sql)) {
                 if (mysqli_num_rows($result) > 0) {
-                    echo '<br>';
-                    echo '<form method="post" action="">';
-                    echo '<table class="table"><thead class="thead-dark">
-                            <tr>
-                                <th>Sr. No.</th>
-                                <th>Component</th>
-                                <th>Quantities</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
+                    echo '<br/>';
+                    echo '<form method="post">';
+                    echo '<table class="table animate__animated animate__fadeIn"><thead class="thead-dark">
+            <tr>
+                <th>Sr. No.</th>
+                <th>Component</th>
+                <th>Quantities</th>
+                <th>Action</th>
+            </tr></thead>
+            <tbody>';
 
                     $sr = 1;
                     while ($row = mysqli_fetch_array($result)) {
-                        ?>
+            ?>
                         <tr>
-                            <td><?php echo $sr++; ?></td>
+                            <td><?php echo $sr; $sr++; ?></td>
                             <td><?php echo $row['componet']; ?></td>
                             <td><?php echo $row['quantities']; ?></td>
                             <td>
-                                <form method="post">
-                                    <button class="btn btn-warning" type="submit" name="btnEdit" value="<?php echo $row['id']; ?>">
-                                        <span><i class="fa fa-pencil" aria-hidden="true"></i></span>
-                                    </button>
-                                    <button class="btn btn-danger" type="submit" name="btnDelete" value="<?php echo $row['id']; ?>">
-                                        <span><i class="fa fa-trash" aria-hidden="true"></i></span>
-                                    </button>
-                                    <!-- Add checkbox here -->
-                                    <input type="checkbox" name="checkbox[]" value="<?php echo $row['id']; ?>">
-                                </form>
+                                <button class="btn btn-warning" type="submit" name="btnEdit" value="<?php echo $row['id']; ?>">
+                                    <span><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                </button>
+                                <button class="btn btn-danger" type="submit" name="btnDelete" value="<?php echo $row['id']; ?>">
+                                    <input type="hidden" name="selid" value="<?php echo $row['id']; ?>">
+                                    <span><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                                </button>
                             </td>
                         </tr>
-                        <?php
-                    }
-                    echo '</tbody></table>';
-                    // Add Next button here
-                    echo '<button type="button" id="btnNext" class="btn btn-primary">Next</button>';
-                    // Add quantity input fields here
-                    echo '<div id="quantityInput"></div>';
-                    echo '<button type="submit" name="btnSave" id="btnSave" class="btn btn-primary" style="display:none;">Save</button>';
-                    echo '</form>';
+                    <?php
+                    } ?>
+                    </tbody>
+                    </table>
+                    </form>
+            <?php
                 } else {
-                    echo "No blogs found.";
+                    echo '<div class="alert alert-info animate__animated animate__fadeIn" role="alert">No records found.</div>';
                 }
             }
-
             ?>
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    // Script to show quantity input fields when Next button is clicked
-    document.addEventListener('DOMContentLoaded', function() {
-        const btnNext = document.getElementById('btnNext');
-        const btnSave = document.getElementById('btnSave');
-        const quantityInput = document.getElementById('quantityInput');
-        btnNext.addEventListener('click', function() {
-            const checkboxes = document.querySelectorAll('input[name="checkbox[]"]:checked');
-            if (checkboxes.length === 0) {
-                alert('Please select at least one component.');
-            } else {
-                quantityInput.innerHTML = ''; // Clear previous input fields
-                checkboxes.forEach((checkbox) => {
-                    const componentId = checkbox.value;
-                    const label = document.createElement('label');
-                    label.textContent = 'Enter quantity for component ' + componentId + ': ';
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.name = 'quantities[' + componentId + ']'; // Use component ID as input name
-                    input.required = true;
-                    quantityInput.appendChild(label);
-                    quantityInput.appendChild(input);
-                    quantityInput.appendChild(document.createElement('br'));
-                });
-                btnSave.style.display = 'block'; // Show the Save button
-            }
-        });
-
-        btnSave.addEventListener('click', function() {
-            // Submit the form when Save button is clicked
-            document.querySelector('form').submit();
-        });
-    });
-</script>
-
-</body>
-</html>

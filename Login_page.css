@@ -1,36 +1,54 @@
-.outer{
-    margin: 50px  auto;
-    padding: 10px 12px 10px 12px;
+body {
+    background-image:url("Login_bg.png");
+    background-size: cover;
+    background-position: center;
+    margin: auto;
+    padding: auto;
     font-family: 'Roboto', sans-serif;
-    width: 550px;
-    height: 600px; 
-    background-color: white;
+}
+
+.outer {
+    margin: 190px auto;
+    padding: 20px;
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.8);
     text-align: center;
     border-radius: 15px;
-    box-shadow: 2px 2px 20px black
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
-.inner1{
+
+h1, h2 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.inner {
     text-align: left;
-    font-weight: bold;
-    opacity: 75%;
-    font-size: 20px;
 }
-#username,#password{
-    border: 1px solid black;
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    height: 30px;
-    width: 100%;
-    text-align: left;
-    display: inline-block;
-    margin-top: 10px;
-    
 }
-#submit{
-    margin: auto;
-    background-color: blue;
-    border: 2px solid blue;
-    border-radius: 10px;
-    font-size: 20px;
 
+#login-submit {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
 
+#login-submit:hover {
+    background-color: #0056b3;
 }

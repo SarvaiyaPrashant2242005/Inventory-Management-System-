@@ -1,8 +1,10 @@
 <?php
+    session_start(); // Start the session
+
     $host = "localhost";
     $user = "root";
     $password = "";
-    $database_name = "user";
+    $database_name = "login";
 
     $data = mysqli_connect($host, $user, $password, $database_name);
     if ($data === false) {
@@ -12,7 +14,7 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = $_POST['username'];
         $password = $_POST['password'];
-
+        
         // Use prepared statement to prevent SQL injection
         $sql = "SELECT * FROM login WHERE Username = ? AND Password = ?";
         $stmt = mysqli_prepare($data, $sql);
@@ -23,6 +25,9 @@
         // Check if any rows were returned
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_array($result);
+
+            // Set the username in the session variable
+            $_SESSION['username'] = $username;
 
             if ($row["Usertype"] == "user") {
                 header("location:mainpage.php");

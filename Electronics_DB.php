@@ -15,7 +15,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Electonics (
     status TINYINT(1) NOT NULL DEFAULT 1
 )";
 if (mysqli_query($link, $sql)) {
-    echo "Table created successfully.";
+    
 } else {
     echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
 }
