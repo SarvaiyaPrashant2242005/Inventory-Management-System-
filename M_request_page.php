@@ -12,11 +12,12 @@
     <link rel="stylesheet" href="styles.css"> <!-- Add your custom CSS file -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome for icons -->
     <style>
-      body{
-          background-image: url("11.jpg");
-          background-size: cover;}
+        body{
+            background-image: url("11.jpg");
+            background-size: cover;
+        }
         h1{
-            justify-content: center;
+            text-align: center;
         }
         .main-content {
             padding-left: 50px; /* Width of the sidebar + additional padding */
@@ -43,8 +44,13 @@
             color: red;
         }
 
+        .status-returned {
+            color: blue;
+        }
+
         .btn-approve,
-        .btn-reject {
+        .btn-reject,
+        .btn-return {
             padding: 0.2em 0.5em;
             font-size: 0.9em;
         }
@@ -80,7 +86,7 @@
                                 $status = $_POST['status'];
                                 $sql = "UPDATE request SET status = '$status' WHERE id = $request_id";
                                 if (mysqli_query($link, $sql)) {
-                                   
+                                    // Successfully updated
                                 } else {
                                     echo "Error updating status: " . mysqli_error($link);
                                 }
@@ -103,8 +109,14 @@
                                 echo "<td>";
                                 if ($row['status'] == 'Approved') {
                                     echo "<span class='status status-approved'><i class='fas fa-check-circle'></i> Approved</span>";
+                                    echo "<form method='post' style='display:inline;'>";
+                                    echo "<input type='hidden' name='request_id' value='" . $row['id'] . "'>";
+                                    echo "<button type='submit' name='status' value='Returned' class='btn btn-info btn-return'><i class='fas fa-undo'></i> Return</button>";
+                                    echo "</form>";
                                 } elseif ($row['status'] == 'Rejected') {
                                     echo "<span class='status status-rejected'><i class='fas fa-times-circle'></i> Rejected</span>";
+                                } elseif ($row['status'] == 'Returned') {
+                                    echo "<span class='status status-returned'><i class='fas fa-undo'></i> Returned</span>";
                                 } else {
                                     echo "<form method='post'>";
                                     echo "<input type='hidden' name='request_id' value='" . $row['id'] . "'>";
@@ -116,7 +128,7 @@
                                 echo "</tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='4'>No requests found</td></tr>";
+                            echo "<tr><td colspan='5'>No requests found</td></tr>";
                         }
 
                         // Close database connection

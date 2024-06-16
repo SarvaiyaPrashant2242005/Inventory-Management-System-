@@ -1,3 +1,60 @@
+<?php
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Initialize variables for error messages and form data
+$alert_message = "";
+$username = $email = $department = $phone_no = $password = "";
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Collect form data
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $department = $_POST['department'];
+    $phone_no = $_POST['Phone_No'];
+    $password = $_POST['password'];
+
+    // Database configuration
+    $host = "localhost";
+    $user = "root";
+    $password_db = "";
+    $database_name = "login";
+
+    // Create connection
+    $conn = new mysqli($host, $user, $password_db, $database_name);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Check if username already exists
+    $stmt = $conn->prepare("SELECT * FROM login WHERE Username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Username already exists
+        $alert_message = "Username already exists. Please choose a different username.";
+    } else {
+        // Insert new user into the database using prepared statement
+        $stmt = $conn->prepare("INSERT INTO login (Username, Email, Department, Password, Phone_No) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $username, $email, $department, $password, $phone_no);
+        if ($stmt->execute()) {
+            $alert_message = "User added successfully.";
+        } else {
+            $alert_message = "Error adding user: " . $stmt->error;
+        }
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,7 +148,7 @@
         }
 
         input[type="submit"] {
-            background-color: #4CAF50;
+            background-color: blue;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -118,7 +175,7 @@
         }
 
         a {
-            color: #4CAF50;
+            color: blue;
             text-decoration: none;
         }
 
@@ -144,6 +201,11 @@
 <body>
     <div class="outer">
         <h1>Sign Up</h1>
+        <?php
+            if (!empty($alert_message)) {
+                echo "<script>alert('$alert_message');</script>";
+            }
+        ?>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="inner">
                 <label for="username">Username:</label>
@@ -167,7 +229,7 @@
             </div>
         </form>
         <div>
-            <p>Already have an account? <a href="Login_Page (1).html">Log in here</a>.</p>
+            <p>Already have an account? <a href="Login_page.php">Log in here</a>.</p>
         </div>
     </div>
 </body>

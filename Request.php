@@ -11,10 +11,11 @@
     <?php include 'USER_SIDEBAR.php'; ?>
     <style>
         body{
-          background-image: url("11.jpg");
-          background-size: cover;}
+            background-image: url("11.jpg");
+            background-size: cover;
+        }
         h1{
-            justify-content: center;
+            text-align: center;
         }
         .main-content {
             padding-left: 50px; /* Width of the sidebar + additional padding */
@@ -25,9 +26,29 @@
         .content-container {
             margin-left: 200px; /* Width of the sidebar */
         }
+
+        /* Custom styles for status icons */
+        .status {
+            font-size: 1.2em;
+            padding: 0.3em 0.5em;
+            border-radius: 5px;
+        }
+
+        .status-approved {
+            color: green;
+        }
+
+        .status-rejected {
+            color: red;
+        }
+
+        .status-returned {
+            color: blue;
+        }
     </style>
     <?php
     // Start session
+    // session_start();
 
     // Check if user is logged in
     if (!isset($_SESSION['username'])) {
@@ -43,7 +64,6 @@
     $username = $_SESSION['username'];
 
     ?>
-
 </head>
 <body>
     <div class="main-content">
@@ -76,12 +96,22 @@
                                 echo "<td>" . $row["account_holder_name"] . "</td>";
                                 echo "<td>" . $row["component_name"] . "</td>";
                                 echo "<td>" . $row["quantity"] . "</td>";
-                                echo "<td>" . $row['request_date']."</td>";
-                                echo "<td>" . ($row["status"] ?? 'Pending') . "</td>"; // Display status, default to "Pending"
+                                echo "<td>" . $row['request_date'] . "</td>";
+                                echo "<td>";
+                                if ($row['status'] == 'Approved') {
+                                    echo "<span class='status status-approved'><i class='fas fa-check-circle'></i> Approved</span>";
+                                } elseif ($row['status'] == 'Rejected') {
+                                    echo "<span class='status status-rejected'><i class='fas fa-times-circle'></i> Rejected</span>";
+                                } elseif ($row['status'] == 'Returned') {
+                                    echo "<span class='status status-returned'><i class='fas fa-undo'></i> Returned</span>";
+                                } else {
+                                    echo "<span class='status'>Pending</span>";
+                                }
+                                echo "</td>";
                                 echo "</tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='4'>No requests found</td></tr>";
+                            echo "<tr><td colspan='5'>No requests found</td></tr>";
                         }
 
                         // Close database connection
